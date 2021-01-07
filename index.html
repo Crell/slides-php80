@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+	<title>Exploring PHP 8.0</title>
+
+	<link rel="stylesheet" href="css/reset.css" />
+	<link rel="stylesheet" href="css/reveal.css" />
+<!--	<link rel="stylesheet" href="css/theme/black.css">-->
+
+  <link rel="stylesheet" href="platform/platformsh.css" />
+
+	<!-- Theme used for syntax highlighting of code -->
+	<link rel="stylesheet" href="lib/css/monokai.css">
+
+	<!-- Printing and PDF exports -->
+	<script>
+		var link = document.createElement( 'link' );
+		link.rel = 'stylesheet';
+		link.type = 'text/css';
+		link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
+		document.getElementsByTagName( 'head' )[0].appendChild( link );
+	</script>
+
+  <style type="text/css">
+
+    p.challenge-q {
+      color: blue;
+    }
+
+    p.challenge-a {
+      color: green;
+    }
+  </style>
+
+</head>
+<body class="skin-blue">
+<div class="reveal">
+  <footer>
+    <img class="logo" src="platform/logos/platformsh-logo-black.svg" alt="Platform.sh" />
+    <span class="name">@Crell</span>
+  </footer>
+	<div class="slides">
+    <section class="title">
+      <h1>Exploring PHP 8.0</h1>
+    </section>
+
+    <section id="presenter">
+      <h2>Larry Garfield</h2>
+      <h2><a href="https://twitter.com/Crell">@Crell</a></h2>
+      <div class="layout-col vcentered">
+        <a href="https://leanpub.com/thinking-functionally-in-php"><img src="assets/thinking-functionally.png" alt="Larry implements Huggable" style="width: 350px; margin: 0" /></a>
+        <ul style="text-wrap: none">
+          <li>Director of DX, <a href="http://www.platform.sh/">Platform.sh</a></li>
+          <li style="margin-top: 1em;">PHP-FIG Core Committee</li>
+          <li style="margin-top: 1em;">Author, <a href="https://leanpub.com/thinking-functionally-in-php"><em>Thinking Functionally in PHP</em></a></li>
+        </ul>
+      </div>
+    </section>
+
+    <div style="display:none">
+      * History of PHP
+      * PHP 8.0 big
+
+      Big
+      * Constructor promotion
+      * Named arguments
+      * attributes
+      * Type improvements
+      * match()
+      * JIT
+
+      Small
+      * string functions
+      * trailing commas
+      * Variadics
+      * return static
+      * Nullsafe methods
+
+      Changes
+      * Numeric strings
+      * Non-numeric arithmetic
+      * Tighter errors
+    </div>
+
+    <section id="final">
+      <div class="layout-col">
+        <div>
+          <h2>Larry Garfield</h2>
+          <h2><a href="http://twitter.com/Crell">@Crell</a></h2>
+          <p>Director of Developer Experience <a href="http://www.platform.sh/">Platform.sh</a></p>
+          <p>The end-to-end web platform for agile teams</p>
+          <p>Stalk us at <a href="http://twitter.com/Platformsh">@PlatformSH</a></p>
+        </div>
+        <div>
+          <h2>Buy my book!</h2>
+          <p><a href="https://bit.ly/fn-php">https://bit.ly/fn-php</a></p>
+          <p><a href="https://bit.ly/fn-php"><img src="assets/thinking-functionally.png" width="175px;" alt="Cover of Thinking Functionally in PHP" /></a></p>
+        </div>
+      </div>
+    </section>
+  </div>
+</div>
+
+<script src="js/reveal.js"></script>
+
+<script>
+	// More info about config & dependencies:
+	// - https://github.com/hakimel/reveal.js#configuration
+	// - https://github.com/hakimel/reveal.js#dependencies
+	Reveal.initialize({
+    hash: true,
+    controlsTutorial: false,
+		dependencies: [
+			{ src: 'plugin/markdown/marked.js' },
+			{ src: 'plugin/markdown/markdown.js' },
+			{ src: 'plugin/notes/notes.js', async: true },
+			{ src: 'plugin/highlight/highlight.js', async: true }
+		]
+	});
+</script>
+
+<!-- Custom Reveal extension scripts. -->
+<script src="platform/classer.js"></script>
+<script src="platform/countup.js"></script>
+<script src="platform/usecase.js"></script>
+
+</body>
+</html>
