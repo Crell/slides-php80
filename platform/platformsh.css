@@ -149,6 +149,17 @@ body {
   margin-left: 2em;
 }
 
+dt {
+  font-weight: bold;
+  line-height: 1.5em;
+}
+
+dd {
+  margin-left: 2em;
+  line-height: 1.5em;
+}
+
+
 ul.inline {
   display: flex;
   list-style: none;
