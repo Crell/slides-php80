@@ -85,20 +85,83 @@
     </section>
     <section>
       <section>
-        <h2></h2>
+        <h2>Type improvements</h2>
+      </section>
+      <section>
+        <h3>Union types</h3>
+        <pre><code class="php font--20" data-trim>
+function mangleUsers(string|array $users): array
+{
+    If (is_string($users)) {
+        $users = [$users];
+    }
+    // ...
+}
+					</code></pre>
+      </section>
+      <section>
+        <h3>Union types</h3>
+        <pre><code class="php font--20" data-trim>
+function doMath(int|float): int|float
+{
+    // ...
+}
+					</code></pre>
+      </section>
+      <section>
+        <h3>Union types</h3>
+        <pre><code class="php font--20" data-trim>
+function handleRequest(RequestInterface $req):
+          RequestInterface|ResponseInterface
+{
+    // ...
+}
+					</code></pre>
+        <aside class="notes">
+          <ul>
+            <li>A whole new way to structure pipelines and middleware!</li>
+          </ul>
+        </aside>
+      </section>
+      <section>
+        <h3>Speciality Unions</h3>
+        <ul>
+          <li class="fragment"><code>null</code> is a type, equivalent to <code>?</code></li>
+          <li class="fragment"><code>false</code> is a return type only, don't use it</li>
+          <li class="fragment"><code>mixed</code> ~ untyped, so use <code>mixed</code></li>
+        </ul>
+      </section>
+      <section>
+        <h3><code>Stringable</code></h3>
+        <div class="layout-stacked" style="height: 600px;">
+        <pre><code class="php font--20" data-trim>
+interface Stringable {
+  public function __toString(): string;
+}
+					</code></pre>
+          <pre class="fragment"><code class="php font--20" data-trim>
+function show_message(string|Stringable $message): void
+{
+    // ...
+}
+					</code></pre>
+          <p class="fragment">It's automated!</p>
+        </div>
+        <aside class="notes">
+          <ul>
+            <li>__toString only if one clear obvious string representation</li>
+          </ul>
+        </aside>
       </section>
     </section>
 
 
     <div style="display:none">
-      * History of PHP
-      * PHP 8.0 big
-
       Big
       * Constructor promotion
       * Named arguments
       * attributes
-      * Type improvements
+      +* Type improvements
       * match()
       * JIT
 
