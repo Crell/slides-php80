@@ -454,6 +454,50 @@ $bestSaleItem = $catalog
         </aside>
       </section>
     </section>
+    <section>
+      <section>
+        <h2>Moar warnings and errors</h2>
+      </section>
+      <section>
+        <h3>From warning to error exception</h3>
+        <dl>
+          <dt class="fragment">Modify property of non-object</dt>
+          <dd class="fragment"><code>$not_object->foo = 'bar'</code></dd>
+          <dt class="fragment">Writing to scalar value as array</dt>
+          <dd class="fragment"><code>$an_int[] = 4;</code></dd>
+          <dt class="fragment">Invalid argument for <code>foreach()</code></dt>
+          <dd class="fragment"><code>foreach($an_int as $x) {}</code></dd>
+          <dd class="fragment"><code>foreach($not_traversable as $x) {}</code></dd>
+          <dt class="fragment">Illegal offset</dt>
+          <dd class="fragment"><code>print $arr[$an_object]</code></dd>
+          <dt class="fragment">Division by zero</dt>
+          <dd class="fragment"><code>$val = 5/0</code></dd>
+        </dl>
+      </section>
+      <section>
+        <h3>From notice to warning</h3>
+        <dl>
+          <dt class="fragment">Array offset on non-array</dt>
+          <dd class="fragment"><code>$an_int[4]</code></dd>
+          <dt class="fragment">Access property of non-object</dt>
+          <dd class="fragment"><code>$a_string->name</code></dd>
+          <dt class="fragment">Array to string conversion</dt>
+          <dd class="fragment"><code>print $an_array</code></dd>
+          <dt class="fragment">Undefined property</dt>
+          <dd class="fragment"><code>$object->does_not_exist</code></dd>
+          <dt class="fragment">Undefined variable</dt>
+          <dd class="fragment"><code>print $does_not_exist</code></dd>
+        </dl>
+      </section>
+      <section>
+        <p class="bigdeal" style="text-shadow: none">Undefined properties are now Warnings!</p>
+        <aside class="notes">
+          <ul>
+            <li>Cheer or jeer, it's here.</li>
+          </ul>
+        </aside>
+      </section>
+    </section>
 
     <div style="display:none">
       Order:
@@ -462,7 +506,7 @@ $bestSaleItem = $catalog
       +* Numeric strings
       +* match()
       +* Nullsafe methods
-      * Tighter errors
+      +* Tighter errors
       * trailing commas
       * Constructor promotion
       * attributes
