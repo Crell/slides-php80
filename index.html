@@ -225,7 +225,8 @@ if (strpos('peace on earth', $needle) == false) {
             <img src="assets/time-bomb.jpg" alt="Sticks of dynamite tied to a timer" />
             <p class="credit">
               <a href="https://www.flickr.com/photos/34246041@N08/5331436372">"time bomb"</a> by
-              <a href="https://www.flickr.com/photos/34246041@N08">dkshots</a> is licensed under <a href="https://creativecommons.org/licenses/by-nc/2.0/?ref=ccsearch&atype=html">CC BY-NC 2.0</a>
+              <a href="https://www.flickr.com/photos/34246041@N08">dkshots</a> is licensed under
+              <a href="https://creativecommons.org/licenses/by-nc/2.0/?ref=ccsearch&atype=html">CC BY-NC 2.0</a>
             </p>
           </div>
         </div>
@@ -280,7 +281,9 @@ in_array(0, ['a', 'b', 'c']); // true
       <section>
         <img src="assets/match.jpg" alt="Match expressions" height="650px" />
         <p class="credit">
-          <a href="https://www.flickr.com/photos/31013199@N06/6824336063">"Burning Match Novoflex adaptor NX NIK 85mm Samsung NX200"</a><span> by <a href="https://www.flickr.com/photos/31013199@N06">zen whisk</a></span> is licensed under <a href="https://creativecommons.org/licenses/by-nd/2.0/?ref=ccsearch&atype=html" style="margin-right: 5px;">CC BY-ND 2.0</a>
+          <a href="https://www.flickr.com/photos/31013199@N06/6824336063">"Burning Match Novoflex adaptor NX NIK 85mm Samsung NX200"</a>
+          by <a href="https://www.flickr.com/photos/31013199@N06">zen whisk</a> is licensed under
+          <a href="https://creativecommons.org/licenses/by-nd/2.0/?ref=ccsearch&atype=html" style="margin-right: 5px;">CC BY-ND 2.0</a>
         </p>
       </section>
       <section>
@@ -384,6 +387,73 @@ $size = match(true) {
         </aside>
       </section>
     </section>
+    <section>
+      <section>
+        <h2>Nullsafe methods</h2>
+      </section>
+      <section>
+        <h3><code>Null</code>: The billion dollar mistake</h3>
+        <img src="assets/100-billion-dollars.jpeg" alt="100 billion dollar bill" />
+        <p class="credit">
+          <a href="https://www.flickr.com/photos/20417698@N00/2899197879">"100 Billion Dollars"</a>
+          by <a href="https://www.flickr.com/photos/20417698@N00">Peat Bakke</a> is licensed under
+          <a href="https://creativecommons.org/licenses/by/2.0/?ref=ccsearch&atype=html" >CC BY 2.0</a>
+        </p>
+        <aside class="notes">
+          <ul>
+            <li>You know not to use null, but what about other people's code?</li>
+          </ul>
+        </aside>
+      </section>
+      <section>
+        <h3>Cleaning up someone else's <code>null</code></h3>
+        <div class="layout-stacked" style="height:600px">
+          <pre><code class="php font--20" data-trim data-noescape data-line-numbers>
+$user = get_user($id);
+if (!is_null($user)) {
+    $address = $user->getAddress();
+    if (!is_null($address)) {
+        $state = $address->state;
+        if (!is_null($state)) {
+            // And so on.
+        }
+    }
+}
+          </code></pre>
+          <p class="fragment oversize">Eeew</p>
+        </div>
+      </section>
+      <section>
+        <h2>PHP 8.0</h2>
+        <pre><code class="php font--20" data-trim data-noescape data-line-numbers>
+$state = get_user($id)?->getAddress()?->state;
+        </code></pre>
+        <aside class="notes">
+          <ul>
+            <li>Same as previous slide</li>
+          </ul>
+        </aside>
+      </section>
+      <section>
+        <div class="layout-stacked" style="height:600px">
+          <h3>Short-circuiting nulls</h3>
+          <pre><code class="php font--20" data-trim data-noescape data-line-numbers>
+$bestSaleItem = $catalog
+          ?->getProducts(get_seasonal_type())
+          ?->mostPopular(10)[5];
+        </code></pre>
+          <ul>
+            <li class="fragment"><code>get_seasonal_type()</code> not called if <code>$catalog</code> is <code>null</code></li>
+            <li class="fragment">Doesn't work on the array from <code>mostPopular()</code></li>
+          </ul>
+        </div>
+        <aside class="notes">
+          <ul>
+            <li>Doesn't say which one was null. If you care, use an either monad.</li>
+          </ul>
+        </aside>
+      </section>
+    </section>
 
     <div style="display:none">
       Order:
@@ -391,7 +461,7 @@ $size = match(true) {
       +* string functions
       +* Numeric strings
       +* match()
-      * Nullsafe methods
+      +* Nullsafe methods
       * Tighter errors
       * trailing commas
       * Constructor promotion
