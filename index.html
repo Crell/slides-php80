@@ -197,7 +197,66 @@ if (strpos('peace on earth', $needle) == false) {
         </div>
       </section>
     </section>
-
+    <section>
+      <section>
+        <div class="layout-stacked" style="height:750px">
+          <h2>Numeric strings</h2>
+          <p class="fragment"><q>A string that is probably close enough to a number that we can<br />convert it to one automagically and call it a day</q></p>
+          <div class="fragment">
+            <img src="assets/time-bomb.jpg" alt="Sticks of dynamite tied to a timer" />
+            <p class="credit">
+              <a href="https://www.flickr.com/photos/34246041@N08/5331436372">"time bomb"</a> by
+              <a href="https://www.flickr.com/photos/34246041@N08">dkshots</a> is licensed under <a href="https://creativecommons.org/licenses/by-nc/2.0/?ref=ccsearch&atype=html">CC BY-NC 2.0</a>
+            </p>
+          </div>
+        </div>
+      </section>
+      <section>
+        <h3>In PHP 7.4...</h3>
+        <pre><code class="php font--20" data-trim data-noescape data-line-numbers>
+0 == "wait, what?";           // true
+0 == "";                      // true
+99 == '99 bottles of beer';   // true
+42 == '     42';              // true
+42 == '42     ';              // false, only sometimes
+in_array(0, ['a', 'b', 'c']); // true
+					</code></pre>
+      </section>
+      <section>
+        <img src="assets/picard-facepalm.jpg" height="600px" alt="Wat" />
+      </section>
+      <section>
+        <div class="layout-stacked" style="height:600px">
+          <h3>PHP 8.0</h3>
+          <div>
+            <p>Numeric string:</p>
+            <p><code>trim($string)</code></p>
+          </div>
+          <p class="fragment">Whitespace is ignored at the start and end, consistently</p>
+        </div>
+      </section>
+      <section>
+        <h3>Behavior</h3>
+        <div class="layout-stacked" style="height:600px">
+          <div>
+            <h4>Comparison</h4>
+            <p><code>" 42 " < $a_num</code> => Compare as numbers</p>
+            <p><code>'abc' < $a_num</code> => Compare as strings</p>
+          </div>
+          <div class="fragment">
+            <h4>Function args</h4>
+            <p><code>expects_int("42");</code> => OK in weak mode, error in strict</p>
+            <p><code>expects_int("42 is the answer");</code> => always type error</p>
+          </div>
+          <p class="fragment">Now go enable <code>declare(strict_types=1);</code></p>
+        </div>
+        <aside class="notes">
+          <ul>
+            <li>Explicit cast works like before</li>
+          </ul>
+        </aside>
+      </section>
+    </section>
 
     <div style="display:none">
       Big
@@ -216,7 +275,7 @@ if (strpos('peace on earth', $needle) == false) {
       * Nullsafe methods
 
       Changes
-      * Numeric strings
+      +* Numeric strings
       * Non-numeric arithmetic
       * Tighter errors
     </div>
