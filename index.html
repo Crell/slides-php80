@@ -88,7 +88,7 @@
         <h2>Type improvements</h2>
       </section>
       <section>
-        <h3>Union types</h3>
+        <h2>Union types</h2>
         <pre><code class="php font--20" data-trim data-noescape data-line-numbers>
 function mangleUsers(string|array $users): array
 {
@@ -100,7 +100,7 @@ function mangleUsers(string|array $users): array
 					</code></pre>
       </section>
       <section>
-        <h3>Union types</h3>
+        <h2>Union types</h2>
         <pre><code class="php font--20" data-trim data-noescape data-line-numbers>
 function doMath(int|float): int|float
 {
@@ -109,7 +109,7 @@ function doMath(int|float): int|float
 					</code></pre>
       </section>
       <section>
-        <h3>Union types</h3>
+        <h2>Union types</h2>
         <pre><code class="php font--20" data-trim data-noescape data-line-numbers>
 function handleRequest(RequestInterface $req):
           RequestInterface|ResponseInterface
@@ -124,7 +124,7 @@ function handleRequest(RequestInterface $req):
         </aside>
       </section>
       <section>
-        <h3>Speciality Unions</h3>
+        <h2>Speciality Unions</h2>
         <ul>
           <li class="fragment"><code>null</code> is a type, equivalent to <code>?</code></li>
           <li class="fragment"><code>false</code> is a return type only, don't use it</li>
@@ -132,7 +132,26 @@ function handleRequest(RequestInterface $req):
         </ul>
       </section>
       <section>
-        <h3><code>Stringable</code></h3>
+        <h2><code>static</code> returns</h2>
+        <pre><code class="php font--20" data-trim data-noescape data-line-numbers>
+Interface TaskBuilder
+{
+    public function addStep(Step $s): static;
+}
+
+class  ImportantTask implements TaskBuilder
+{
+    public function addStep(Step $s): static
+    {
+        $this->steps[] = $s;
+        return $this;
+    }
+}
+        </code></pre>
+        <p class="fragment"><code>addStep()</code> returns <code>ImportantTask</code>, not <code>TaskBuilder</code>.</p>
+      </section>
+      <section>
+        <h2><code>Stringable</code></h2>
         <div class="layout-stacked" style="height: 600px;">
         <pre><code class="php font--20" data-trim data-noescape data-line-numbers>
 interface Stringable {
@@ -160,7 +179,7 @@ function show_message(string|Stringable $message): void
         <h2>Improved string functions</h2>
       </section>
       <section>
-        <h3><code>str_*_with()</code></h3>
+        <h2><code>str_*_with()</code></h2>
           <pre><code class="php font--20" data-trim data-noescape data-line-numbers>
 $needle = 'hello';
 
@@ -177,7 +196,7 @@ if (str_ends_with('hello world', $needle)) {
 					</code></pre>
       </section>
       <section>
-        <h3><code>str_contains()</code></h3>
+        <h2><code>str_contains()</code></h2>
         <div class="layout-stacked" style="height: 600px">
         <pre><code class="php font--20" data-trim data-noescape data-line-numbers>
 $needle = 'on';
@@ -212,7 +231,7 @@ if (strpos('peace on earth', $needle) == false) {
         </div>
       </section>
       <section>
-        <h3>In PHP 7.4...</h3>
+        <h2>In PHP 7.4...</h2>
         <pre><code class="php font--20" data-trim data-noescape data-line-numbers>
 0 == "wait, what?";           // true
 0 == "";                      // true
@@ -227,7 +246,7 @@ in_array(0, ['a', 'b', 'c']); // true
       </section>
       <section>
         <div class="layout-stacked" style="height:600px">
-          <h3>PHP 8.0</h3>
+          <h2>PHP 8.0</h2>
           <div>
             <p>Numeric string:</p>
             <p><code>trim($string)</code></p>
@@ -236,16 +255,16 @@ in_array(0, ['a', 'b', 'c']); // true
         </div>
       </section>
       <section>
-        <h3>Behavior</h3>
+        <h2>Behavior</h2>
         <div class="layout-stacked" style="height:600px">
           <div>
-            <h4>Comparison</h4>
+            <h3>Comparison</h3>
             <p><code>" 42 " < $a_num</code> => Compare as numbers</p>
             <p><code>'abc' < $a_num</code> => Compare as strings</p>
           </div>
           <div class="fragment">
-            <h4>Function args</h4>
-            <p><code>expects_int("42");</code> => OK in weak mode, error in strict</p>
+            <h3>Function args</h3>
+            <p><code>expects_int(" 42 ");</code> => OK in weak mode, error in strict</p>
             <p><code>expects_int("42 is the answer");</code> => always type error</p>
           </div>
           <p class="fragment">Now go enable <code>declare(strict_types=1);</code></p>
@@ -257,21 +276,141 @@ in_array(0, ['a', 'b', 'c']); // true
         </aside>
       </section>
     </section>
+    <section>
+      <section>
+        <img src="assets/match.jpg" alt="Match expressions" height="650px" />
+        <p class="credit">
+          <a href="https://www.flickr.com/photos/31013199@N06/6824336063">"Burning Match Novoflex adaptor NX NIK 85mm Samsung NX200"</a><span> by <a href="https://www.flickr.com/photos/31013199@N06">zen whisk</a></span> is licensed under <a href="https://creativecommons.org/licenses/by-nd/2.0/?ref=ccsearch&atype=html" style="margin-right: 5px;">CC BY-ND 2.0</a>
+        </p>
+      </section>
+      <section>
+        <p>Have you done this?</p>
+        <pre><code class="php font--20" data-trim data-noescape data-line-numbers>
+$display = $user->isAdmin()
+    ? $user->name() . ' (admin)'
+    : $user->name() . ' (muggle)'
+;
+        </code></pre>
+        <ul>
+          <li class="fragment">Clean branching expression</li>
+          <li class="fragment">Encourages simple expressions</li>
+          <li class="fragment">Encourages factoring out to functions</li>
+          <li class="fragment">Only works for <code>true</code>/<code>false</code> :-(</li>
+        </ul>
+      </section>
+      <section>
+        <h2><code>match()</code> expressions</h2>
+        <pre><code class="php font--20" data-trim data-noescape data-line-numbers>
+$display = match($user->isAdmin()) {
+    true  => $user->name . ' (admin)',
+    false => $user->name . ' (muggle)',
+};
+        </code></pre>
+        <ul>
+          <li class="fragment"><code>===</code> match</li>
+          <li class="fragment">Returns expression</li>
+          <li class="fragment">No fall-through</li>
+          <li class="fragment">Must be exhaustive</li>
+        </ul>
+        <aside class="notes">
+          <ul>
+            <li>Error thrown if value doesn't match any arm</li>
+          </ul>
+        </aside>
+      </section>
+      <section>
+        <p>This...</p>
+        <pre><code class="php font--16" data-trim data-noescape data-line-numbers>
+switch ($var) {
+    case 'a':
+        $message = "The variable was a.";
+        break;
+    case 'b':
+        $message = "The variable was c.";
+        break;
+    case 'c':
+        $message = "The variable was c.";
+        break;
+    default:
+        $message = "The variable was something else.";
+        break;
+}
+        </code></pre>
+        <p>Becomes this</p>
+        <pre><code class="php font--20" data-trim data-noescape data-line-numbers>
+$message = match($var) {
+    'a' => 'The variable was a',
+    'b' => 'The variable was b',
+    'c' => 'The variable was c',
+    default => 'The variable was something else',
+};
+        </code></pre>
+        <aside class="notes">
+          <ul>
+            <li>swtich is a procedural construct; execute set of steps</li>
+            <li>match is a functional construct; map input to output only</li>
+          </ul>
+        </aside>
+      </section>
+      <section>
+        <div class="layout-stacked" style="height:700px">
+          <div>
+            <h3>Compound arms</h3>
+            <pre><code class="php font--20" data-trim data-noescape data-line-numbers>
+echo match($operator) {
+    '+', '-', '*', '/' => 'Basic arithmetic',
+    '%' => 'Modulus',
+    '!' => 'Negation',
+};
+        </code></pre>
+          </div>
+          <div class="fragment">
+            <h3>Complex matches</h3>
+            <pre><code class="php font--20" data-trim data-noescape data-line-numbers>
+$count = get_count();
+$size = match(true) {
+    $count > 0 && $count <=10 => 'small',
+    $count <=50 => 'medium',
+    $count >50 => 'huge',
+};
+        </code></pre>
+          </div>
+        </div>
+        <aside class="notes">
+          <ul>
+            <li>First ex: no default, so error for any other symbol</li>
+            <li>Second ex: error for negative count</li>
+          </ul>
+        </aside>
+      </section>
+    </section>
 
     <div style="display:none">
+      Order:
+      +* Type improvements
+      +* string functions
+      +* Numeric strings
+      +* match()
+      * Nullsafe methods
+      * Tighter errors
+      * trailing commas
+      * Constructor promotion
+      * attributes
+      * Named arguments
+
+
       Big
       * Constructor promotion
       * Named arguments
       * attributes
       +* Type improvements
-      * match()
+      +* match()
       * JIT
 
       Small
       +* string functions
       * trailing commas
-      * Variadics
-      * return static
+      +* return static
       * Nullsafe methods
 
       Changes
