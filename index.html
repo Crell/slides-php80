@@ -89,7 +89,7 @@
       </section>
       <section>
         <h3>Union types</h3>
-        <pre><code class="php font--20" data-trim>
+        <pre><code class="php font--20" data-trim data-noescape data-line-numbers>
 function mangleUsers(string|array $users): array
 {
     If (is_string($users)) {
@@ -101,7 +101,7 @@ function mangleUsers(string|array $users): array
       </section>
       <section>
         <h3>Union types</h3>
-        <pre><code class="php font--20" data-trim>
+        <pre><code class="php font--20" data-trim data-noescape data-line-numbers>
 function doMath(int|float): int|float
 {
     // ...
@@ -110,7 +110,7 @@ function doMath(int|float): int|float
       </section>
       <section>
         <h3>Union types</h3>
-        <pre><code class="php font--20" data-trim>
+        <pre><code class="php font--20" data-trim data-noescape data-line-numbers>
 function handleRequest(RequestInterface $req):
           RequestInterface|ResponseInterface
 {
@@ -134,12 +134,12 @@ function handleRequest(RequestInterface $req):
       <section>
         <h3><code>Stringable</code></h3>
         <div class="layout-stacked" style="height: 600px;">
-        <pre><code class="php font--20" data-trim>
+        <pre><code class="php font--20" data-trim data-noescape data-line-numbers>
 interface Stringable {
   public function __toString(): string;
 }
 					</code></pre>
-          <pre class="fragment"><code class="php font--20" data-trim>
+          <pre class="fragment"><code class="php font--20" data-trim data-noescape data-line-numbers>
 function show_message(string|Stringable $message): void
 {
     // ...
@@ -149,9 +149,52 @@ function show_message(string|Stringable $message): void
         </div>
         <aside class="notes">
           <ul>
+            <li>Any class with __toString auto-implements Stringable</li>
             <li>__toString only if one clear obvious string representation</li>
           </ul>
         </aside>
+      </section>
+    </section>
+    <section>
+      <section>
+        <h2>Improved string functions</h2>
+      </section>
+      <section>
+        <h3><code>str_*_with()</code></h3>
+          <pre><code class="php font--20" data-trim data-noescape data-line-numbers>
+$needle = 'hello';
+
+if (str_starts_with('hello world', $needle)) {
+    print "This must be your first program.";
+}
+					</code></pre>
+          <pre class="fragment"><code class="php font--20" data-trim data-noescape data-line-numbers>
+$needle = 'world';
+
+if (str_ends_with('hello world', $needle)) {
+    print "You say hello to everyone else but not me?";
+}
+					</code></pre>
+      </section>
+      <section>
+        <h3><code>str_contains()</code></h3>
+        <div class="layout-stacked" style="height: 600px">
+        <pre><code class="php font--20" data-trim data-noescape data-line-numbers>
+$needle = 'on';
+if (str_contains('peace on earth', $needle)) {
+    print "Yes, let's do that.";
+}
+					</code></pre>
+          <div class="fragment">
+            <p>Never (screw up) writing this again</p>
+            <pre><code class="php font--20" data-trim data-noescape data-line-numbers>
+$needle = 'on';
+if (strpos('peace on earth', $needle) == false) {
+    print "You have a bug!";
+}
+					</code></pre>
+          </div>
+        </div>
       </section>
     </section>
 
@@ -166,7 +209,7 @@ function show_message(string|Stringable $message): void
       * JIT
 
       Small
-      * string functions
+      +* string functions
       * trailing commas
       * Variadics
       * return static
