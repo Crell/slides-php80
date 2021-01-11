@@ -26,13 +26,12 @@
 
   <style type="text/css">
 
-    p.challenge-q {
-      color: blue;
+    li.done {
+      background-image: url('assets/checkmark.svg');
+      background-size: 40px 40px;
+      color: #33cc00;
     }
 
-    p.challenge-a {
-      color: green;
-    }
   </style>
 
 </head>
@@ -496,6 +495,76 @@ $bestSaleItem = $catalog
             <li>Cheer or jeer, it's here.</li>
           </ul>
         </aside>
+      </section>
+    </section>
+    <section>
+      <section>
+        <h2>Moar commas</h2>
+      </section>
+      <section>
+        <h3>2017</h3>
+        <p class="oversize">RFC: Allow trailing commas in...</p>
+        <ul>
+          <li>function arguments</li>
+          <li>function declaration</li>
+          <li id="grouped-namespaces-commas">grouped namespaces</li>
+          <li><code>implements</code> clause for interfaces</li>
+          <li><code>use</code> clauses for traits</li>
+          <li>class property list</li>
+          <li>closure <code>use</code> statement</li>
+        </ul>
+        <p class="fragment oversize" data-classer="grouped-namespaces-commas" data-classer-class="bigdeal">¯\_(ツ)_/¯</p>
+        <aside class="notes">
+          <ul>
+            <li>One RFC, separate votes for each</li>
+            <li>What's the *one thing* that passed?</li>
+          </ul>
+        </aside>
+      </section>
+      <section>
+        <div class="layout-stacked" style="height:600px">
+          <h3>PHP 7.3</h3>
+          <p class="oversize">RFC: Allow a trailing comma in function arguments</p>
+          <p class="fragment oversize">Passed 30:10</p>
+          <p class="fragment oversize">¯\_(ツ)_/¯</p>
+        </div>
+        <aside class="notes">
+          <ul>
+            <li>Had also failed in 2013!</li>
+          </ul>
+        </aside>
+      </section>
+      <section>
+        <div class="layout-stacked" style="height:600px">
+          <h3>PHP 8.0</h3>
+          <div>
+            <p>Trailing commas in function definition: <img src="assets/checkmark.svg" width="40px" class="fragment" alt="Done" /></p>
+            <p class="fragment">Trailing commas in closure <code>use</code>: <img src="assets/checkmark.svg" width="40px" class="fragment" alt="Done" /></p>
+          </div>
+          <p class="fragment oversize">¯\_(ツ)_/¯</p>
+        </div>
+        <aside class="notes">
+          <ul>
+            <li>Function def was 58:1</li>
+            <li>Use clause was 49:0</li>
+          </ul>
+        </aside>
+      </section>
+      <section>
+        <pre><code class="php font--20" id="comma1" data-trim data-noescape data-line-numbers="2|8">
+class Address
+{
+    public function __construct(
+        string $street,
+        string $number,
+        string $city,
+        string $state,
+        string $zip,     // This is new.
+    ) {
+    // ...
+    }
+}
+        </code></pre>
       </section>
     </section>
 
