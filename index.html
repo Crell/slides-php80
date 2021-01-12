@@ -577,6 +577,131 @@ $dynamic_function = function(
         </code></pre>
       </section>
     </section>
+    <section>
+      <section>
+        <h2>Constructor Promotion</h2>
+      </section>
+      <section>
+        <h3>PHP 7.4 and earlier</h3>
+        <div class="layout-col vcentered">
+          <div style="margin-left: 75px;">
+            <img src="assets/drake-disapprove.png" alt="Drake disapproves of this code" />
+          </div>
+          <pre><code class="php font--18" data-trim data-noescape data-line-numbers>
+class FormRenderer
+{
+    private ThemeSystem $theme;
+    private UserRepository $users;
+    private ModuleSystem $modules;
+
+    public function __construct(
+        ThemeSystem $theme,
+        UserRepository $users,
+        ModuleSystem $modules
+    ) {
+        $this->theme = $theme;
+        $this->users = $users;
+        $this->modules = $modules;
+    }
+
+    public function render(Form $form): string
+    {
+        // ...
+    }
+}
+          </code></pre>
+        </div>
+        <aside class="notes">
+          <ul>
+            <li>Repeat every variable four times!</li>
+          </ul>
+        </aside>
+      </section>
+      <section>
+        <h3>PHP 8.0</h3>
+        <div class="layout-col vcentered">
+          <div style="margin-left: 75px">
+            <img src="assets/drake-approve.png" alt="Drake approves of this code" />
+          </div>
+          <pre><code class="php font--18" data-trim data-noescape data-line-numbers>
+class FormRenderer
+{
+    public function __construct(
+        private ThemeSystem $theme,
+        private UserRepository $users,
+        private ModuleSystem $modules,
+    ) { }
+
+    public function renderForm(Form $form): string
+    {
+        // ...
+    }
+}
+          </code></pre>
+        </div>
+        <aside class="notes">
+          <ul>
+            <li>Means the same thing</li>
+            <li>Note that trailing comma? This is why it was added.</li>
+          </ul>
+        </aside>
+      </section>
+      <section>
+        <h3>Mix and match</h3>
+        <pre><code class="php font--20" data-trim data-noescape data-line-numbers>
+class FormRenderer
+{
+    private User $currentUser;
+
+    public function __construct(
+        private ThemeSystem $theme,
+        private UserRepository $users,
+        private ModuleSystem $modules,
+    ) {
+        $this->currentUser = $this->users->getActiveUser();
+    }
+
+    public function renderForm(Form $form): string
+    {
+        // ...
+    }
+}
+        </code></pre>
+        <aside class="notes">
+          <ul>
+            <li>Any parameter can be promoted or not</li>
+            <li>Can't promote callable-typed args, because can't type property</li>
+          </ul>
+        </aside>
+      </section>
+      <section>
+        <h3>Trivial value objects</h3>
+        <pre><code class="php font--20" data-trim data-noescape data-line-numbers>
+Class MailMessage
+{
+    public function __construct(
+        public string $to,
+        public string $subject,
+        public string $from,
+        public string $body,
+        public array $cc,
+        public array $bcc,
+        public string $attachmentPath,
+    ) {}
+}
+        </code></pre>
+        <aside class="notes">
+          <ul>
+            <li>Should make private and add methods if not internal</li>
+          </ul>
+        </aside>
+      </section>
+    </section>
+    <section>
+      <section>
+        <h2></h2>
+      </section>
+    </section>
 
     <div style="display:none">
       Order:
@@ -586,11 +711,11 @@ $dynamic_function = function(
       +* match()
       +* Nullsafe methods
       +* Tighter errors
-      * trailing commas
-      * Constructor promotion
+      +* trailing commas
+      +* Constructor promotion
       * attributes
       * Named arguments
-
+      * Oh yeah, JIT
 
       Big
       * Constructor promotion
