@@ -699,7 +699,191 @@ Class MailMessage
     </section>
     <section>
       <section>
-        <h2></h2>
+        <h2>Meta(meta(data))</h2>
+        <p class="oversize fragment">(~Doctrine Annotations but in core)</p>
+      </section>
+      <section>
+        <h3>Attributes</h3>
+        <pre><code class="php font--20" data-trim data-noescape data-line-numbers>
+#[GreedyLoad]
+class Product
+{
+
+    #[Positive]
+    protected int $id;
+
+    #[Admin]
+    public function refillStock(int $quantity): bool
+    {
+        // ...
+    }
+}
+        </code></pre>
+        <aside class="notes">
+          <ul>
+            <li>Rust-like syntax</li>
+            <li>Side effect: Comment in old versions, but can be multi-line</li>
+            <li>No intrinsic meaning; only available in Reflection</li>
+            <li>Attributes are strings or classes</li>
+          </ul>
+        </aside>
+      </section>
+      <section>
+        <h2>Example: Tukio</h2>
+        <pre><code class="php font--20" data-trim data-noescape data-line-numbers>
+function my_listener(MyEvent $event): void { ... }
+
+$provider = new OrderedListenerProvider();
+
+// How you normally add a listener to a provider.
+$provider->addListener('my_listener', 5, 'listener_a', MyEvent::class);
+        </code></pre>
+        <aside class="notes">
+          <ul>
+            <li>Callable, priority, ID, type</li>
+            <li>All but the first is optional</li>
+          </ul>
+        </aside>
+      </section>
+      <section>
+        <h2>Step 1: Define attribute</h2>
+        <pre><code class="php font--20" data-trim data-noescape data-line-numbers>
+namespace Crell\Tukio;
+
+use \Attribute;
+
+#[Attribute]
+class Listener implements ListenerAttribute
+{
+   public function __construct(
+       public ?string $id = null,
+       public ?string $type = null,
+   ) {}
+}
+        </code></pre>
+        <aside class="notes">
+          <ul>
+            <li>Attribute is a class, so `use` it</li>
+            <li>Constructor can be anything</li>
+            <li>Note promotion and comma!</li>
+            <li>Internal so can be public; could be arbitrarily complex</li>
+          </ul>
+        </aside>
+      </section>
+      <section>
+        <h2>Step 1.5: Restrict attribute</h2>
+        <pre><code class="php font--20" data-trim data-noescape data-line-numbers>
+namespace Crell\Tukio;
+
+use \Attribute;
+
+#[Attribute(Attribute::TARGET_FUNCTION | Attribute::TARGET_METHOD)]
+class Listener implements ListenerAttribute
+{
+   public function __construct(
+       public ?string $id = null,
+       public ?string $type = null,
+   ) {}
+}
+        </code></pre>
+        <aside class="notes">
+          <ul>
+            <li>Can target function, method, class, property, constant, or argument!</li>
+            <li>More precise than Doctrine supports</li>
+          </ul>
+        </aside>
+      </section>
+      <section>
+        <h2>Step 2: Tag it</h2>
+        <pre><code class="php font--20" data-trim data-noescape data-line-numbers>
+use Crell\Tukio\Listener;
+
+#[Listener('listener_a')]
+function my_listener(MyEvent $event): void { ... }
+
+$provider = new OrderedListenerProvider();
+
+$provider->addListener('my_listener', 5);
+        </code></pre>
+        <aside class="notes">
+          <ul>
+            <li>`use` the attribute class</li>
+            <li>Tag the listener function with an attribute</li>
+            <li>Args map directly to the constructor</li>
+          </ul>
+        </aside>
+      </section>
+      <section>
+        <h2>Step 3: Interpret it</h2>
+        <pre><code class="php font--20" data-trim data-noescape data-line-numbers>
+Use Crell\Tukio\Listener;
+
+/// A string means it's a function name,
+// so reflect on it as a function.
+if (is_string($listener)) {
+    $ref = new \ReflectionFunction($listener);
+    $attribs = $ref->getAttributes(
+        Listener::class,
+        \ReflectionAttribute::IS_INSTANCEOF,
+    );
+    $attributes = array_map(
+        fn(\ReflectionAttribute $attrib) => $attrib->newInstance(),
+        $attribs,
+    );
+}
+        </code></pre>
+        <aside class="notes">
+          <ul>
+            <li>Real code is a bit more involved, same idea</li>
+            <li>$attributes now array of Listener objects</li>
+            <li>Can have multiple attributes on one target, same or different</li>
+            <li>getAttributes() filters to instances of class/interface)</li>
+          </ul>
+        </aside>
+      </section>
+      <section>
+        <h2>Symfony 5.2</h2>
+        <pre><code class="php font--20" data-trim data-noescape data-line-numbers>
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Http\Attribute\CurrentUser;
+
+class SomeController
+{
+    #[Route('/path', 'action_name')]
+    public function index(#[CurrentUser] MyUser $user)
+    {
+        // ...
+    }
+}
+        </code></pre>
+        <aside class="notes">
+          <ul>
+            <li>Can use the same class as Doctrine</li>
+            <li>Can tag parameters now, too</li>
+          </ul>
+        </aside>
+      </section>
+      <section>
+        <h3>Promoted parameter attributes</h3>
+        <pre><code class="php font--20" data-trim data-noescape data-line-numbers>
+class Point
+{
+    public function __construct(
+        #[Positive]
+        public int $x,
+        #[Positive]
+        public int $y
+    ) {}
+}
+        </code></pre>
+        <p class="fragment oversize">Applies to parameter and property</p>
+        <aside class="notes">
+          <ul>
+            <li>Can use the same class as Doctrine</li>
+            <li>Can tag parameters now, too</li>
+          </ul>
+        </aside>
       </section>
     </section>
 
@@ -713,7 +897,7 @@ Class MailMessage
       +* Tighter errors
       +* trailing commas
       +* Constructor promotion
-      * attributes
+      +* attributes
       * Named arguments
       * Oh yeah, JIT
 
