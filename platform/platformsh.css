@@ -6,7 +6,7 @@
 /* Enable or disable for debugging purposes
 to show where the edge of the slide region is. */
 .reveal .slides {
-  /*border: 1px dotted red;*/
+  border: 1px dotted red;
 }
 
 :root {
@@ -53,7 +53,11 @@ body.skin-blue {
 }
 
 body {
-  background-color: var(--background);
+  /*
+  No, important is not OK. But I don't know how else to override
+  Reveal 4's default background of white.
+   */
+  background-color: var(--background) !important;
   font-family: var(--brand-font), Helvetica, sans-serif;
   color: var(--color-text);
 }

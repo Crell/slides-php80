@@ -6,23 +6,14 @@
 
 	<title>Exploring PHP 8.0</title>
 
-	<link rel="stylesheet" href="css/reset.css" />
-	<link rel="stylesheet" href="css/reveal.css" />
+  <link rel="stylesheet" href="dist/reset.css">
+  <link rel="stylesheet" href="dist/reveal.css">
 <!--	<link rel="stylesheet" href="css/theme/black.css">-->
 
-  <link rel="stylesheet" href="platform/platformsh.css" />
+  <link rel="stylesheet" href="platform/platformsh.css" id="theme" />
 
 	<!-- Theme used for syntax highlighting of code -->
-	<link rel="stylesheet" href="lib/css/monokai.css">
-
-	<!-- Printing and PDF exports -->
-	<script>
-		var link = document.createElement( 'link' );
-		link.rel = 'stylesheet';
-		link.type = 'text/css';
-		link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
-		document.getElementsByTagName( 'head' )[0].appendChild( link );
-	</script>
+  <link rel="stylesheet" href="plugin/highlight/monokai.css" id="highlight-theme">
 
   <style type="text/css">
 
@@ -150,9 +141,9 @@ class  ImportantTask implements TaskBuilder
         <p class="fragment"><code>addStep()</code> returns <code>ImportantTask</code>, not <code>TaskBuilder</code>.</p>
       </section>
       <section>
-        <h2><code>Stringable</code></h2>
         <div class="layout-stacked" style="height: 600px;">
-        <pre><code class="php font--20" data-trim data-noescape data-line-numbers>
+          <h2><code>Stringable</code></h2>
+          <pre><code class="php font--20" data-trim data-noescape data-line-numbers>
 interface Stringable {
   public function __toString(): string;
 }
@@ -195,9 +186,9 @@ if (str_ends_with('hello world', $needle)) {
 					</code></pre>
       </section>
       <section>
-        <h2><code>str_contains()</code></h2>
         <div class="layout-stacked" style="height: 600px">
-        <pre><code class="php font--20" data-trim data-noescape data-line-numbers>
+          <h2><code>str_contains()</code></h2>
+          <pre><code class="php font--20" data-trim data-noescape data-line-numbers>
 $needle = 'on';
 if (str_contains('peace on earth', $needle)) {
     print "Yes, let's do that.";
@@ -255,8 +246,8 @@ in_array(0, ['a', 'b', 'c']); // true
         </div>
       </section>
       <section>
-        <h2>Behavior</h2>
         <div class="layout-stacked" style="height:600px">
+          <h2>Behavior</h2>
           <div>
             <h3>Comparison</h3>
             <p><code>" 42 " < $a_num</code> => Compare as numbers</p>
@@ -440,7 +431,7 @@ $state = get_user($id)?->getAddress()?->state;
 $bestSaleItem = $catalog
           ?->getProducts(get_seasonal_type())
           ?->mostPopular(10)[5];
-        </code></pre>
+          </code></pre>
           <ul>
             <li class="fragment"><code>get_seasonal_type()</code> not called if <code>$catalog</code> is <code>null</code></li>
             <li class="fragment">Doesn't work on the array from <code>mostPopular()</code></li>
@@ -551,7 +542,8 @@ $bestSaleItem = $catalog
         </aside>
       </section>
       <section>
-        <pre><code class="php font--20" id="comma1" data-trim data-noescape data-line-numbers="2|8">
+        <h3>Commas!</h3>
+        <pre><code class="php font--20" data-trim data-noescape data-line-numbers="1-12|8">
 class Address
 {
     public function __construct(
@@ -564,6 +556,24 @@ class Address
     // ...
     }
 }
+        </code></pre>
+      </section>
+      <section>
+        <h3>More Commas!</h3>
+        <pre><code class="php font--20" data-trim data-noescape data-line-numbers="1-13|8,12">
+$a ='A';
+$b = 'B';
+$c = 'C';
+
+$dynamic_function = function(
+  $first,
+  $second,
+  $third, // This is new, as before.
+) use (
+  $a,
+  $b,
+  $c,     // This is also new.
+);
         </code></pre>
       </section>
     </section>
@@ -621,22 +631,20 @@ class Address
   </div>
 </div>
 
-<script src="js/reveal.js"></script>
-
+<script src="dist/reveal.js"></script>
+<script src="plugin/notes/notes.js"></script>
+<script src="plugin/markdown/markdown.js"></script>
+<script src="plugin/highlight/highlight.js"></script>
 <script>
-	// More info about config & dependencies:
-	// - https://github.com/hakimel/reveal.js#configuration
-	// - https://github.com/hakimel/reveal.js#dependencies
-	Reveal.initialize({
+  // More info about initialization & config:
+  // - https://revealjs.com/initialization/
+  // - https://revealjs.com/config/
+  Reveal.initialize({
     hash: true,
-    controlsTutorial: false,
-		dependencies: [
-			{ src: 'plugin/markdown/marked.js' },
-			{ src: 'plugin/markdown/markdown.js' },
-			{ src: 'plugin/notes/notes.js', async: true },
-			{ src: 'plugin/highlight/highlight.js', async: true }
-		]
-	});
+
+    // Learn about plugins: https://revealjs.com/plugins/
+    plugins: [ RevealMarkdown, RevealHighlight, RevealNotes ]
+  });
 </script>
 
 <!-- Custom Reveal extension scripts. -->
