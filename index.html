@@ -886,41 +886,222 @@ class Point
         </aside>
       </section>
     </section>
+    <section>
+      <section>
+        <img src="assets/monty-python-argument.jpg" alt="Arguments" />
+      </section>
+      <section>
+        <h3>Two hardest problems in computer science</h3>
+        <ol>
+          <li>Naming things</li>
+          <li>Cache invalidation</li>
+          <li>Off by one errors</li>
+        </ol>
+        <aside class="notes">
+          <ul>
+            <li>Naming things is harder when you can't see the name</li>
+          </ul>
+        </aside>
+      </section>
+      <section>
+        <p class="oversize">What does this do?</p>
+        <div class="layout-col equal-width vcentered">
+          <div>
+            <img src="assets/drake-disapprove.png"  style="margin-left: 25px;" alt="Drake disapproves of this code" />
+          </div>
+          <div style="flex-grow: 1.5">
+            <pre><code class="php font--18" data-trim data-noescape data-line-numbers>
+$new = array_fill(0, 100, 50);
+          </code></pre>
+            <ul>
+              <li><code>50</code>, 100 times?</li>
+              <li><code>100</code>, 5 times?</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+      <section>
+        <p class="oversize">That's what this does!</p>
+        <div class="layout-col vcentered">
+          <div>
+            <img src="assets/drake-approve.png" style="margin-left: 25px;" alt="Drake approves of this code" />
+          </div>
+          <div style="flex-grow: 1.5">
+            <pre><code class="php font--18" data-trim data-noescape data-line-numbers>
+array_fill(start_index: 0, count: 100, value: 50);
+          </code></pre>
+          </div>
+        </div>
+        <aside class="notes">
+          <ul>
+            <li>All functions now support named arguments</li>
+            <li>Matches parameter name</li>
+            <li>Mix and match</li>
+          </ul>
+        </aside>
+      </section>
+      <section>
+        <h3>Any order</h3>
+        <pre><code class="php font--20" data-trim data-noescape data-line-numbers>
+array_fill(
+  value: 50,
+  count: 100,
+  start_index: 0,
+);
+        </code></pre>
+        <div class="fragment">
+          <h3>Not allowed</h3>
+            <pre><code class="php font--20" data-trim data-noescape data-line-numbers>
+array_fill(
+  value: 50,
+  0,
+  count: 100
+);
+          </code></pre>
+        </div>
+        <aside class="notes">
+          <ul>
+            <li>Named params come after indexed params</li>
+            <li>Named in any order</li>
+            <li>Note the comma at the end!</li>
+          </ul>
+        </aside>
+      </section>
+      <section>
+        <h3>Variadics</h3>
+        <div class="layout-stacked" style="height:600px">
+          <pre><code class="php font--20" data-trim data-noescape data-line-numbers>
+// Indexed array, so the values will map to indexed parameters.
+$params = [0, 100, 50];
+array_fill(...$params);
 
-    <div style="display:none">
-      Order:
-      +* Type improvements
-      +* string functions
-      +* Numeric strings
-      +* match()
-      +* Nullsafe methods
-      +* Tighter errors
-      +* trailing commas
-      +* Constructor promotion
-      +* attributes
-      * Named arguments
-      * Oh yeah, JIT
+// Named array, so the values will map to named parameters.
+$params = ['count' => 100, 'start_index' => 0, 'value' => 50];
+array_fill(...$params);
+          </code></pre>
+          <div class="fragment">
+            <h3>Dynamic arguments</h3>
+              <pre class="fragment"><code class="php font--20" data-trim data-noescape data-line-numbers>
+$args['value'] = $request->get('val') ?? 'a';
+$args['start_index'] = 0;
+$args['count'] = $config->getSetting('array_size');
 
-      Big
-      * Constructor promotion
-      * Named arguments
-      * attributes
-      +* Type improvements
-      +* match()
-      * JIT
-
-      Small
-      +* string functions
-      * trailing commas
-      +* return static
-      * Nullsafe methods
-
-      Changes
-      +* Numeric strings
-      * Non-numeric arithmetic
-      * Tighter errors
-    </div>
-
+$array = array_fill(...$args);
+            </code></pre>
+          </div>
+        </div>
+      </section>
+      <section>
+        <h3>Struct objects</h3>
+        <pre><code class="php font--20" data-trim data-noescape data-line-numbers>
+class Url implements UrlInterface
+{
+    public function __construct(
+        private string $scheme = 'https',
+        private ?string $authority = null,
+        private ?string $userInfo = null,
+        private string $host = '',
+        private ?int $port = 443,
+        private string $path = '',
+        private ?string $query = null,
+        private ?string $fragment = null,
+    ) {}
+}
+        </code></pre>
+        <aside class="notes">
+          <ul>
+            <li>Lots of args, not clear which ones you want</li>
+            <li>"Natural" order is not based on frequency of use</li>
+          </ul>
+        </aside>
+      </section>
+      <section>
+        <div class="layout-stacked" style="height: 600px;">
+          <h3>How are you going to call?</h3>
+          <pre><code class="php font--16" data-trim data-noescape data-line-numbers>
+// PHP <= 7.4
+$url = new Url('https', null, null, 'platform.sh', 443, '/blog', null, 'latest');
+          </code></pre>
+          <pre class="fragment"><code class="php font--18" data-trim data-noescape data-line-numbers>
+// PHP 8.0
+$url = new Url(host: 'platform.sh', path: '/blog', fragment: 'latest');
+          </code></pre>
+          <pre class="fragment"><code class="php font--18" data-trim data-noescape data-line-numbers>
+// PHP 8.0
+$url = new Url(
+    path: '/blog',
+    host: 'platform.sh',
+    fragment: 'latest'
+);
+          </code></pre>
+          <p class="fragment oversize">cf: <a href="https://peakd.com/php/@crell/improving-php-s-object-ergonomics">Improving PHP's object ergonomics</a></p>
+        </div>
+        <aside class="notes">
+          <ul>
+            <li>No need for arrays</li>
+            <li>Self-documenting, refactorable, type-safe</li>
+            <li>Blog post from me, argued for named args + constructor promotion</li>
+          </ul>
+        </aside>
+      </section>
+      <section>
+        <h3>Attributes</h3>
+        <pre><code class="php font--20" data-trim data-noescape data-line-numbers>
+class SomeController
+{
+    #[Route(path: '/path', name: 'action')]
+    public function someAction()
+    {
+        // ...
+    }
+}
+        </code></pre>
+        <aside class="notes">
+          <ul>
+            <li>Attributes are value objects</li>
+            <li>Can be multi-line if desired</li>
+            <li>Likely the most common usage</li>
+            <li>Don't over-use named args</li>
+          </ul>
+        </aside>
+      </section>
+      <section>
+        <h3>The most important use case...</h3>
+        <pre><code class="php font--20" data-trim data-noescape data-line-numbers>
+if (in_array(haystack: $arr, needle: 'A')) {
+    // ...
+}
+        </code></pre>
+        <p class="fragment oversize">¯\_(ツ)_/¯</p>
+        <aside class="notes">
+          <ul>
+            <li>The order no longer matters, stop whining about it</li>
+          </ul>
+        </aside>
+      </section>
+    </section>
+    <section>
+      <h2>Oh, yeah, JIT</h2>
+      <aside class="notes">
+        <ul>
+          <li>Advanced configuration</li>
+          <li>Disabled by default</li>
+          <li>Unclear what perf benefit for web requests</li>
+          <li>Big deal for static analyzers, machine learning, etc.</li>
+        </ul>
+      </aside>
+    </section>
+    <section>
+      <section>
+        <h2>In summary...</h2>
+        <ul>
+          <li class="fragment">You need to write half as much code</li>
+          <li class="fragment">Your code is more self-descriptive</li>
+          <li class="fragment">Undefined variables are always a warning</li>
+          <li class="fragment"><code>$needle</code>/<code>$haystack</code> is no longer a thing</li>
+        </ul>
+      </section>
+    </section>
     <section id="final">
       <div class="layout-col">
         <div>
