@@ -96,7 +96,7 @@ function mangleUsers(string|array $users): array
       <section>
         <h2>Union types</h2>
         <pre><code class="php font--20" data-trim data-noescape data-line-numbers>
-function doMath(int|float): int|float
+function doMath(int|float $in): int|float
 {
     // ...
 }
@@ -128,7 +128,7 @@ function handleRequest(RequestInterface $req):
       <section>
         <h2><code>static</code> returns</h2>
         <pre><code class="php font--20" data-trim data-noescape data-line-numbers>
-Interface TaskBuilder
+interface TaskBuilder
 {
     public function addStep(Step $s): static;
 }
@@ -484,7 +484,7 @@ $bestSaleItem = $catalog
         </dl>
       </section>
       <section>
-        <p class="bigdeal" style="text-shadow: none">Undefined properties are now Warnings!</p>
+        <p class="bigdeal" style="text-shadow: none">Undefined variables are now Warnings!</p>
         <aside class="notes">
           <ul>
             <li>Cheer or jeer, it's here.</li>
@@ -919,7 +919,7 @@ $new = array_fill(0, 100, 50);
           </code></pre>
             <ul>
               <li><code>50</code>, 100 times?</li>
-              <li><code>100</code>, 5 times?</li>
+              <li><code>100</code>, 50 times?</li>
             </ul>
           </div>
         </div>
@@ -959,7 +959,7 @@ array_fill(
 array_fill(
   value: 50,
   0,
-  count: 100
+  count: 100,
 );
           </code></pre>
         </div>
@@ -996,7 +996,7 @@ $array = array_fill(...$args);
         </div>
       </section>
       <section>
-        <h3>Struct objects</h3>
+        <h3>Value objects</h3>
         <pre><code class="php font--20" data-trim data-noescape data-line-numbers>
 class Url implements UrlInterface
 {
@@ -1004,6 +1004,7 @@ class Url implements UrlInterface
         private string $scheme = 'https',
         private ?string $authority = null,
         private ?string $userInfo = null,
+        private string $host = '',
         private string $host = '',
         private ?int $port = 443,
         private string $path = '',
@@ -1053,7 +1054,10 @@ $url = new Url(
         <pre><code class="php font--20" data-trim data-noescape data-line-numbers>
 class SomeController
 {
-    #[Route(path: '/path', name: 'action')]
+    #[Route(
+          path: '/path',
+          name: 'action',
+    )]
     public function someAction()
     {
         // ...
@@ -1082,6 +1086,12 @@ if (in_array(haystack: $arr, needle: 'A')) {
             <li>The order no longer matters, stop whining about it</li>
           </ul>
         </aside>
+      </section>
+      <section>
+        <div class="layout-stacked" style="height: 400px;">
+          <h2>Caveat coder</h2>
+          <p class="oversize"><em>Parameter names are now part of your interface contract</em></p>
+        </div>
       </section>
     </section>
     <section>
