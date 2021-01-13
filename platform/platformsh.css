@@ -245,8 +245,10 @@ p.credit {
 .reveal pre {
   display: block;
   position: relative;
-  width: 100%;
-  margin: 0.25rem auto;
+  width: 90%;
+  /* For some reason it doesn't center without re-specifying the margins. */
+  margin-left: auto;
+  margin-right: auto;
   text-align: left;
   font-size: 1rem;
   font-family: var(--brand-font-mono), monospace;
@@ -319,11 +321,6 @@ aside {
   padding: 0.5em;
   overflow: auto;
   font-size: 0.7rem;
-  max-width: 90%;
-  /* For some reason it doesn't center without re-specifying the margins. */
-  margin-left: auto;
-  margin-right: auto;
-  /* This is based on a default slide height in Reveal of 700px. */
   max-height: 550px;
 }
 
@@ -361,6 +358,12 @@ aside {
   /* Set the style attribute on the .fixed-height element; it will apply to the children. */
   --height: 200px;
   height: var(--height);
+}
+
+/* code blocks in columns need an extra margin so that they don't butt up against the next cells. */
+.layout-col pre {
+  margin-left: 20px;
+  margin-right: 20px;
 }
 
 .reveal .layout-stacked {
