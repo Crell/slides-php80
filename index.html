@@ -402,7 +402,7 @@ $size = match(true) {
       <section>
         <h3>Cleaning up someone else's <code>null</code></h3>
         <div class="layout-stacked" style="height:600px">
-          <pre><code class="php font--20" data-trim data-noescape data-line-numbers>
+          <pre><code class="php font--24" data-trim data-noescape data-line-numbers>
 $user = get_user($id);
 if (!is_null($user)) {
     $address = $user->getAddress();
@@ -419,7 +419,7 @@ if (!is_null($user)) {
       </section>
       <section>
         <h2>PHP 8.0</h2>
-        <pre><code class="php font--20" data-trim data-noescape data-line-numbers>
+        <pre><code class="php font--24" data-trim data-noescape data-line-numbers>
 $state = get_user($id)?->getAddress()?->state;
         </code></pre>
         <aside class="notes">
@@ -431,7 +431,7 @@ $state = get_user($id)?->getAddress()?->state;
       <section>
         <div class="layout-stacked" style="height:600px">
           <h3>Short-circuiting nulls</h3>
-          <pre><code class="php font--20" data-trim data-noescape data-line-numbers>
+          <pre><code class="php font--24" data-trim data-noescape data-line-numbers>
 $bestSaleItem = $catalog
           ?->getProducts(get_seasonal_type())
           ?->mostPopular(10)[5];
@@ -712,7 +712,6 @@ Class MailMessage
 #[GreedyLoad]
 class Product
 {
-
     #[Positive]
     protected int $id;
 
@@ -1075,7 +1074,7 @@ class SomeController
       </section>
       <section>
         <h3>The most important use case...</h3>
-        <pre><code class="php font--20" data-trim data-noescape data-line-numbers>
+        <pre><code class="php font--24" data-trim data-noescape data-line-numbers>
 if (in_array(haystack: $arr, needle: 'A')) {
     // ...
 }
