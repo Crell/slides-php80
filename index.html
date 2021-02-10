@@ -133,7 +133,7 @@ interface TaskBuilder
     public function addStep(Step $s): static;
 }
 
-class  ImportantTask implements TaskBuilder
+class ImportantTask implements TaskBuilder
 {
     public function addStep(Step $s): static
     {
@@ -881,12 +881,6 @@ class Point
 }
         </code></pre>
         <p class="fragment oversize">Applies to parameter and property</p>
-        <aside class="notes">
-          <ul>
-            <li>Can use the same class as Doctrine</li>
-            <li>Can tag parameters now, too</li>
-          </ul>
-        </aside>
       </section>
     </section>
     <section>
@@ -1003,7 +997,6 @@ class Url implements UrlInterface
         private string $scheme = 'https',
         private ?string $authority = null,
         private ?string $userInfo = null,
-        private string $host = '',
         private string $host = '',
         private ?int $port = 443,
         private string $path = '',
